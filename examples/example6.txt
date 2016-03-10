@@ -1,0 +1,9 @@
+125.47.32.33
+01111101 00101111 00100000 00100001
+
+125.47.32.47
+01111101 00101111 00100000 00101111
+
+What is the smallest subnet (size) that would allow these two computers to talk?
+
+27 (not 28)

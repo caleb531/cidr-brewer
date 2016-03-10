@@ -1,0 +1,5 @@
+125.47.32.170/25
+125.47.32.53/25
+
+Can these IP addresses ping each other?
+No.
