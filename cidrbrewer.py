@@ -125,14 +125,23 @@ def main():
 
     if len(cli_args.addr_strs) > 1:
 
-        bin_addr_1 = parse_addr_str(cli_args.addr_strs[0])[0]
-        bin_addr_2 = parse_addr_str(cli_args.addr_strs[1])[0]
+        bin_addr_1, num_subnet_bits_1 = parse_addr_str(cli_args.addr_strs[0])
+        bin_addr_2, num_subnet_bits_2 = parse_addr_str(cli_args.addr_strs[1])
 
         print('Given IP addresses:')
         print_addr(bin_addr_1)
         print_addr(bin_addr_2)
 
-        print('Largest subnet mask:')
+        if num_subnet_bits_1 is not None and num_subnet_bits_2 is not None:
+            print('Can these IP addresses communicate?')
+            network_id_1 = get_network_id(bin_addr_1, num_subnet_bits_1)
+            network_id_2 = get_network_id(bin_addr_2, num_subnet_bits_2)
+            if network_id_1 == network_id_2:
+                print(indent('Yes', INDENT_LEVEL))
+            else:
+                print(indent('No', INDENT_LEVEL))
+
+        print('Largest subnet mask needed to communicate:')
         largest_subnet_mask = get_largest_subnet_mask(bin_addr_1, bin_addr_2)
         num_subnet_bits = largest_subnet_mask.count('1')
         print(indent('{} bits'.format(num_subnet_bits), INDENT_LEVEL))

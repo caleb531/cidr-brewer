@@ -10,8 +10,7 @@ the calculations yourself.
 ## Usage.
 
 To use, run `./cidrbrewer.py` from the command line with one or two IP
-addresses. The program will run slightly differently depending on how many IP
-addresses you supply:
+addresses.
 
 If you pass a single IP address using slash notation, CIDR Brewer will compute
 the subnet mask, network ID, broadcast ID, and the range of valid/available IP
@@ -34,17 +33,16 @@ Last Available Address:
 Subnet Size: 2^7 - 2 = 126
 ```
 
-If you pass two IP addresses (without slash notation), CIDR Brewer will compute
-the largest subnet mask needed for communication between the two addresses. The
-utility will still compute the network ID, broadcast ID, and the range of
-valid/available IP addresses.
+If you pass two IP addresses (without slash notation), CIDR Brewer will also
+compute the largest subnet mask needed for communication between the two
+addresses.
 
 ```bash
 $ ./cidrbrewer.py 172.16.11.74 172.16.11.78
 Given IP addresses:
    172.16.11.74     10101100.00010000.00001011.01001010
    172.16.11.78     10101100.00010000.00001011.01001110
-Largest subnet mask:
+Largest subnet mask needed to communicate:
    29 bits
    255.255.255.248  11111111.11111111.11111111.11111000
 Network ID:
@@ -56,6 +54,31 @@ First Available Address:
 Last Available Address:
    172.16.11.78     10101100.00010000.00001011.01001110
 Subnet Size: 2^3 - 2 = 6
+```
+
+If you pass two IP addresses (with slash notation), CIDR Brewer will also
+indicate if the IP addresses can already communicate on their respective
+subnets.
+
+```bash
+$ ./cidrbrewer.py 125.47.32.170/25 125.47.32.53/25
+Given IP addresses:
+   125.47.32.170    01111101.00101111.00100000.10101010
+   125.47.32.53     01111101.00101111.00100000.00110101
+Can these IP addresses communicate?
+   No
+Largest subnet mask needed to communicate:
+   24 bits
+   255.255.255.0    11111111.11111111.11111111.00000000
+Network ID:
+   125.47.32.0      01111101.00101111.00100000.00000000
+Broadcast ID:
+   125.47.32.255    01111101.00101111.00100000.11111111
+First Available Address:
+   125.47.32.1      01111101.00101111.00100000.00000001
+Last Available Address:
+   125.47.32.254    01111101.00101111.00100000.11111110
+Subnet Size: 2^8 - 2 = 254
 ```
 
 ## Examples
