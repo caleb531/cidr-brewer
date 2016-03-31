@@ -16,7 +16,7 @@ If you pass a single IP address using slash notation, CIDR Brewer will compute
 the subnet mask, network ID, broadcast ID, and the range of valid/available IP
 addresses.
 
-```bash
+```
 $ ./cidrbrewer.py 192.168.19.100/25
 Given IP addresses:
    192.168.19.100   11000000.10101000.00010011.01100100
@@ -37,12 +37,12 @@ If you pass two IP addresses (without slash notation), CIDR Brewer will also
 compute the largest subnet mask needed for communication between the two
 addresses.
 
-```bash
+```
 $ ./cidrbrewer.py 172.16.11.74 172.16.11.78
 Given IP addresses:
    172.16.11.74     10101100.00010000.00001011.01001010
    172.16.11.78     10101100.00010000.00001011.01001110
-Largest subnet mask needed to communicate:
+Largest subnet mask allowing communication
    29 bits
    255.255.255.248  11111111.11111111.11111111.11111000
 Network ID:
@@ -60,14 +60,14 @@ If you pass two IP addresses (with slash notation), CIDR Brewer will also
 indicate if the IP addresses can already communicate on their respective
 subnets.
 
-```bash
+```
 $ ./cidrbrewer.py 125.47.32.170/25 125.47.32.53/25
 Given IP addresses:
    125.47.32.170    01111101.00101111.00100000.10101010
    125.47.32.53     01111101.00101111.00100000.00110101
 Can these IP addresses communicate?
    No
-Largest subnet mask needed to communicate:
+Largest subnet mask allowing communication
    24 bits
    255.255.255.0    11111111.11111111.11111111.00000000
 Network ID:
