@@ -12,6 +12,8 @@ the calculations yourself.
 To use, run `./cidrbrewer.py` from the command line with one or two IP
 addresses.
 
+### One IP address
+
 If you pass a single IP address using slash notation, CIDR Brewer will compute
 the subnet mask, network ID, broadcast ID, and the range of valid/available IP
 addresses.
@@ -32,6 +34,33 @@ Last Available Address:
    192.168.19.126   11000000.10101000.00010011.01111110
 Subnet Size: 2^7 - 2 = 126
 ```
+
+If you also pass a list of block sizes, CIDR Brewer will compute the network ID
+of each sub-block.
+
+```
+cidr-brewer : master : $ ./cidrbrewer.py 42.114.152.128/25 --block-sizes 16 64 16 32
+Given IP address:
+   42.114.152.128/25  00101010.01110010.10011000.10000000
+Block 1:
+   Block Size: 64
+   Network ID:
+      42.114.152.128/26  00101010.01110010.10011000.10000000
+Block 2:
+   Block Size: 32
+   Network ID:
+      42.114.152.192/27  00101010.01110010.10011000.11000000
+Block 3:
+   Block Size: 16
+   Network ID:
+      42.114.152.224/28  00101010.01110010.10011000.11100000
+Block 4:
+   Block Size: 16
+   Network ID:
+      42.114.152.240/28  00101010.01110010.10011000.11110000
+```
+
+### Two IP addresses
 
 If you pass two IP addresses (without slash notation), CIDR Brewer will also
 compute the largest subnet mask needed for communication between the two

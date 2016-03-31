@@ -1,14 +1,15 @@
 #!/usr/bin/env python3
 
 import argparse
+import math
 
 
-# The level of indentation used to display results in a readable manner
-INDENT_LEVEL = 3
+# The number of spaces used per indentation level when displaying output
+SPACES_PER_INDENT = 3
 
 
 # Converts the given binary octet to decimal
-def bin_to_dec_octet(bin_octet):
+def bin_to_dec_num(bin_octet):
     return int(bin_octet, 2)
 
 
@@ -16,6 +17,11 @@ def bin_to_dec_octet(bin_octet):
 def dec_to_bin_octet(dec_octet):
     # The bin() function returns a string prefixed with '0b'; strip it
     return bin(int(dec_octet))[2:].zfill(8)
+
+
+# Add two binary numbers and returns the result
+def add_dec_to_bin(bin_num, dec_num):
+    return bin(int(bin_num, 2) + dec_num)[2:]
 
 
 # Splits a binary address into octets
@@ -61,7 +67,7 @@ def prettify_bin_addr(bin_addr):
 # Converts a binary address to a prettified decimal address
 def get_prettified_dec_addr(bin_addr):
     octets = get_addr_octets(bin_addr)
-    return '.'.join(map(str, map(bin_to_dec_octet, octets)))
+    return '.'.join(map(str, map(bin_to_dec_num, octets)))
 
 
 # Compute the subnet size given the number of bits used for the subnet ID
@@ -89,20 +95,21 @@ def get_largest_subnet_mask(bin_addr_1, bin_addr_2):
 
 
 # Indents the given output string
-def indent(output, level=2):
-    return (' ' * level) + output
+def indent(output, indent_level=1):
+    return (' ' * indent_level * SPACES_PER_INDENT) + output
 
 
 # Prints address for display in terminal
-def print_addr(bin_addr, num_subnet_bits=None):
+def print_addr(bin_addr, num_subnet_bits=None, indent_level=1):
     if num_subnet_bits is not None:
         prettified_dec_addr = '{}/{}'.format(
             get_prettified_dec_addr(bin_addr), num_subnet_bits)
     else:
         prettified_dec_addr = get_prettified_dec_addr(bin_addr)
     prettified_bin_addr = prettify_bin_addr(bin_addr)
-    print(indent('{:<18} {:<32}'.format(
-        prettified_dec_addr, prettified_bin_addr), INDENT_LEVEL))
+    print(indent(
+        '{:<18} {:<32}'.format(prettified_dec_addr, prettified_bin_addr),
+        indent_level=indent_level))
 
 
 # Parses the full address string by separating the address from the number of
@@ -121,7 +128,7 @@ def parse_cli_args():
 
     parser = argparse.ArgumentParser()
     parser.add_argument('addr_strs', metavar='ip_addr', nargs='+')
-    parser.add_argument('--block-size', type=int)
+    parser.add_argument('--block-sizes', type=int, nargs='*')
     parser.add_argument('--num-subnets', type=int)
     return parser.parse_args()
 
@@ -152,9 +159,9 @@ def print_addrs_can_communicate(bin_addr_1, num_subnet_bits_1,
         network_id_1 = get_network_id(bin_addr_1, num_subnet_bits_1)
         network_id_2 = get_network_id(bin_addr_2, num_subnet_bits_2)
         if network_id_1 == network_id_2:
-            print(indent('Yes', INDENT_LEVEL))
+            print(indent('Yes'))
         else:
-            print(indent('No', INDENT_LEVEL))
+            print(indent('No'))
 
 
 def handle_two_addrs(addr_strs):
@@ -173,23 +180,46 @@ def handle_two_addrs(addr_strs):
     print('Largest subnet mask allowing communication:')
     largest_subnet_mask = get_largest_subnet_mask(bin_addr_1, bin_addr_2)
     num_subnet_bits = largest_subnet_mask.count('1')
-    print(indent('{} bits'.format(num_subnet_bits), INDENT_LEVEL))
+    print(indent('{} bits'.format(num_subnet_bits), SPACES_PER_INDENT))
     print_addr(largest_subnet_mask)
 
     print_addr_details(bin_addr_1, num_subnet_bits)
 
 
-def handle_one_addr(addr_strs):
+def get_block_network_id(bin_addr, num_subnet_bits, block_size):
+    subnet_part = bin_addr[:num_subnet_bits - 1]
+    host_part = add_dec_to_bin(bin_addr[num_subnet_bits - 1:], block_size)
+    return subnet_part + host_part
+
+
+def print_block_details(bin_addr, num_subnet_bits, block_sizes):
+
+    prev_block_size = 0
+    block_network_id = bin_addr
+    for block_num, block_size in enumerate(reversed(sorted(block_sizes)), 1):
+        num_block_subnet_bits = 32 - int(math.log2(block_size))
+        print('Block {}:'.format(block_num))
+        block_network_id = get_block_network_id(
+            block_network_id, num_subnet_bits, prev_block_size)
+        print(indent('Block Size: {}'.format(block_size)))
+        print(indent('Network ID:'))
+        print_addr(block_network_id, num_block_subnet_bits, indent_level=2)
+        prev_block_size = block_size
+
+
+def handle_one_addr(addr_strs, block_sizes):
 
     bin_addr, num_subnet_bits = parse_addr_str(addr_strs[0])
 
     print('Given IP address:')
-    print_addr(bin_addr)
+    print_addr(bin_addr, num_subnet_bits)
 
-    print('Subnet mask:')
-    print_addr(get_subnet_mask(num_subnet_bits))
-
-    print_addr_details(bin_addr, num_subnet_bits)
+    if block_sizes:
+        print_block_details(bin_addr, num_subnet_bits, block_sizes)
+    else:
+        print('Subnet mask:')
+        print_addr(get_subnet_mask(num_subnet_bits))
+        print_addr_details(bin_addr, num_subnet_bits)
 
 
 def main():
@@ -198,7 +228,7 @@ def main():
     if len(cli_args.addr_strs) == 2:
         handle_two_addrs(cli_args.addr_strs)
     elif len(cli_args.addr_strs) == 1:
-        handle_one_addr(cli_args.addr_strs)
+        handle_one_addr(cli_args.addr_strs, cli_args.block_sizes)
 
 
 if __name__ == '__main__':
