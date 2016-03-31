@@ -39,7 +39,7 @@ If you also pass a list of block sizes, CIDR Brewer will compute the network ID
 of each sub-block.
 
 ```
-cidr-brewer : master : $ ./cidrbrewer.py 42.114.152.128/25 --block-sizes 16 64 16 32
+$ ./cidrbrewer.py 42.114.152.128/25 --block-sizes 16 64 16 32
 Given IP address:
    42.114.152.128/25  00101010.01110010.10011000.10000000
 Block 1:
