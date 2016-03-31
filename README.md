@@ -35,8 +35,8 @@ Last Available Address:
 Subnet Size: 2^7 - 2 = 126
 ```
 
-If you also pass a list of block sizes, CIDR Brewer will compute the network ID
-of each sub-block.
+Additionally, if you supply a list of block sizes, CIDR Brewer will compute the
+same information for each sub-block.
 
 ```
 $ ./cidrbrewer.py 42.114.152.128/25 --block-sizes 16 64 16 32
@@ -46,18 +46,46 @@ Block 1:
    Block Size: 64
    Network ID:
       42.114.152.128/26  00101010.01110010.10011000.10000000
+   Broadcast ID:
+      42.114.152.191     00101010.01110010.10011000.10111111
+   First Available Address:
+      42.114.152.129     00101010.01110010.10011000.10000001
+   Last Available Address:
+      42.114.152.190     00101010.01110010.10011000.10111110
+   Subnet Size: 2^6 - 2 = 62
 Block 2:
    Block Size: 32
    Network ID:
       42.114.152.192/27  00101010.01110010.10011000.11000000
+   Broadcast ID:
+      42.114.152.223     00101010.01110010.10011000.11011111
+   First Available Address:
+      42.114.152.193     00101010.01110010.10011000.11000001
+   Last Available Address:
+      42.114.152.222     00101010.01110010.10011000.11011110
+   Subnet Size: 2^5 - 2 = 30
 Block 3:
    Block Size: 16
    Network ID:
       42.114.152.224/28  00101010.01110010.10011000.11100000
+   Broadcast ID:
+      42.114.152.239     00101010.01110010.10011000.11101111
+   First Available Address:
+      42.114.152.225     00101010.01110010.10011000.11100001
+   Last Available Address:
+      42.114.152.238     00101010.01110010.10011000.11101110
+   Subnet Size: 2^4 - 2 = 14
 Block 4:
    Block Size: 16
    Network ID:
       42.114.152.240/28  00101010.01110010.10011000.11110000
+   Broadcast ID:
+      42.114.152.255     00101010.01110010.10011000.11111111
+   First Available Address:
+      42.114.152.241     00101010.01110010.10011000.11110001
+   Last Available Address:
+      42.114.152.254     00101010.01110010.10011000.11111110
+   Subnet Size: 2^4 - 2 = 14
 ```
 
 ### Two IP addresses

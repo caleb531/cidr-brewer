@@ -133,22 +133,32 @@ def parse_cli_args():
     return parser.parse_args()
 
 
-def print_addr_details(bin_addr, num_subnet_bits):
+def print_addrs(bin_addr, num_subnet_bits, indent_level=1):
 
-    print('Network ID:')
-    print_addr(get_network_id(bin_addr, num_subnet_bits))
+    print(indent('Network ID:', indent_level=indent_level))
+    print_addr(
+        get_network_id(bin_addr, num_subnet_bits),
+        num_subnet_bits=num_subnet_bits,
+        indent_level=indent_level + 1)
 
-    print('Broadcast ID:')
-    print_addr(get_broadcast_id(bin_addr, num_subnet_bits))
+    print(indent('Broadcast ID:', indent_level=indent_level))
+    print_addr(
+        get_broadcast_id(bin_addr, num_subnet_bits),
+        indent_level=indent_level + 1)
 
-    print('First Available Address:')
-    print_addr(get_first_available_addr(bin_addr, num_subnet_bits))
+    print(indent('First Available Address:', indent_level=indent_level))
+    print_addr(
+        get_first_available_addr(bin_addr, num_subnet_bits),
+        indent_level=indent_level + 1)
 
-    print('Last Available Address:')
-    print_addr(get_last_available_addr(bin_addr, num_subnet_bits))
+    print(indent('Last Available Address:', indent_level=indent_level))
+    print_addr(
+        get_last_available_addr(bin_addr, num_subnet_bits),
+        indent_level=indent_level + 1)
 
-    print('Subnet Size: 2^{} - 2 = {}'.format(
-        32 - num_subnet_bits, get_subnet_size(num_subnet_bits)))
+    print(indent('Subnet Size: 2^{} - 2 = {}'.format(
+        32 - num_subnet_bits, get_subnet_size(num_subnet_bits)),
+        indent_level=indent_level))
 
 
 def print_addrs_can_communicate(bin_addr_1, num_subnet_bits_1,
@@ -183,7 +193,7 @@ def handle_two_addrs(addr_strs):
     print(indent('{} bits'.format(num_subnet_bits), SPACES_PER_INDENT))
     print_addr(largest_subnet_mask)
 
-    print_addr_details(bin_addr_1, num_subnet_bits)
+    print_addrs(bin_addr_1, num_subnet_bits)
 
 
 def get_block_network_id(bin_addr, num_subnet_bits, block_size):
@@ -219,8 +229,7 @@ def print_blocks(bin_addr, num_subnet_bits, block_sizes):
             enumerate(blocks, 1):
         print('Block {}:'.format(block_num))
         print(indent('Block Size: {}'.format(block_size)))
-        print(indent('Network ID:'))
-        print_addr(block_network_id, num_block_subnet_bits, indent_level=2)
+        print_addrs(block_network_id, num_block_subnet_bits, indent_level=1)
 
 
 def handle_one_addr(addr_strs, block_sizes):
@@ -235,7 +244,7 @@ def handle_one_addr(addr_strs, block_sizes):
     else:
         print('Subnet mask:')
         print_addr(get_subnet_mask(num_subnet_bits))
-        print_addr_details(bin_addr, num_subnet_bits)
+        print_addrs(bin_addr, num_subnet_bits)
 
 
 def main():
