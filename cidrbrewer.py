@@ -183,7 +183,7 @@ def handle_one_addr(addr_strs):
 
     bin_addr, num_subnet_bits = parse_addr_str(addr_strs[0])
 
-    print('Given IP addresses:')
+    print('Given IP address:')
     print_addr(bin_addr)
 
     print('Subnet mask:')
