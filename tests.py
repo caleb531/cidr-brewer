@@ -74,5 +74,14 @@ class TestCIDRBrewer(unittest.TestCase):
             '01111101001011110010000000101111'),
             '11111111111111111111111111100000')
 
+    def test_get_block_network_id(self):
+        """Should compute the network ID of a block"""
+        self.assertEqual(cidrbrewer.get_block_network_id(
+            '00010000001000111001110110000000',
+            num_subnet_bits=26,
+            block_size=16),
+            '00010000001000111001110110010000')
+
+
 if __name__ == '__main__':
     unittest.main()
