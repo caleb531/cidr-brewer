@@ -157,42 +157,48 @@ def print_addrs_can_communicate(bin_addr_1, num_subnet_bits_1,
             print(indent('No', INDENT_LEVEL))
 
 
+def handle_two_addrs(addr_strs):
+
+    bin_addr_1, num_subnet_bits_1 = parse_addr_str(addr_strs[0])
+    bin_addr_2, num_subnet_bits_2 = parse_addr_str(addr_strs[1])
+
+    print('Given IP addresses:')
+    print_addr(bin_addr_1)
+    print_addr(bin_addr_2)
+
+    print_addrs_can_communicate(
+        bin_addr_1, num_subnet_bits_1,
+        bin_addr_2, num_subnet_bits_2)
+
+    print('Largest subnet mask allowing communication:')
+    largest_subnet_mask = get_largest_subnet_mask(bin_addr_1, bin_addr_2)
+    num_subnet_bits = largest_subnet_mask.count('1')
+    print(indent('{} bits'.format(num_subnet_bits), INDENT_LEVEL))
+    print_addr(largest_subnet_mask)
+
+    print_addr_details(bin_addr_1, num_subnet_bits)
+
+
+def handle_one_addr(addr_strs):
+
+    bin_addr, num_subnet_bits = parse_addr_str(addr_strs[0])
+
+    print('Given IP addresses:')
+    print_addr(bin_addr)
+
+    print('Subnet mask:')
+    print_addr(get_subnet_mask(num_subnet_bits))
+
+    print_addr_details(bin_addr, num_subnet_bits)
+
+
 def main():
 
     cli_args = parse_cli_args()
-
     if len(cli_args.addr_strs) == 2:
-
-        bin_addr_1, num_subnet_bits_1 = parse_addr_str(cli_args.addr_strs[0])
-        bin_addr_2, num_subnet_bits_2 = parse_addr_str(cli_args.addr_strs[1])
-
-        print('Given IP addresses:')
-        print_addr(bin_addr_1)
-        print_addr(bin_addr_2)
-
-        print_addrs_can_communicate(
-            bin_addr_1, num_subnet_bits_1,
-            bin_addr_2, num_subnet_bits_2)
-
-        print('Largest subnet mask allowing communication:')
-        largest_subnet_mask = get_largest_subnet_mask(bin_addr_1, bin_addr_2)
-        num_subnet_bits = largest_subnet_mask.count('1')
-        print(indent('{} bits'.format(num_subnet_bits), INDENT_LEVEL))
-        print_addr(largest_subnet_mask)
-
-        bin_addr = bin_addr_1
-
+        handle_two_addrs(cli_args.addr_strs)
     elif len(cli_args.addr_strs) == 1:
-
-        bin_addr, num_subnet_bits = parse_addr_str(cli_args.addr_strs[0])
-
-        print('Given IP addresses:')
-        print_addr(bin_addr)
-
-        print('Subnet mask:')
-        print_addr(get_subnet_mask(num_subnet_bits))
-
-    print_addr_details(bin_addr, num_subnet_bits)
+        handle_one_addr(cli_args.addr_strs)
 
 
 if __name__ == '__main__':
