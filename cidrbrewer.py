@@ -21,7 +21,7 @@ def dec_to_bin_octet(dec_octet):
 
 # Add two binary numbers and returns the result
 def add_dec_to_bin(bin_num, dec_num):
-    return bin(int(bin_num, 2) + dec_num)[2:]
+    return bin(int(bin_num, 2) + dec_num)[2:].zfill(len(bin_num))
 
 
 # Splits a binary address into octets
