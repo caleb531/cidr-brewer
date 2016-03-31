@@ -94,10 +94,15 @@ def indent(output, level=2):
 
 
 # Prints address for display in terminal
-def print_addr(bin_addr):
-    print(indent('{:<16} {:<32}'.format(
-        get_prettified_dec_addr(bin_addr),
-        prettify_bin_addr(bin_addr)), INDENT_LEVEL))
+def print_addr(bin_addr, num_subnet_bits=None):
+    if num_subnet_bits is not None:
+        prettified_dec_addr = '{}/{}'.format(
+            get_prettified_dec_addr(bin_addr), num_subnet_bits)
+    else:
+        prettified_dec_addr = get_prettified_dec_addr(bin_addr)
+    prettified_bin_addr = prettify_bin_addr(bin_addr)
+    print(indent('{:<18} {:<32}'.format(
+        prettified_dec_addr, prettified_bin_addr), INDENT_LEVEL))
 
 
 # Parses the full address string by separating the address from the number of
@@ -116,51 +121,12 @@ def parse_cli_args():
 
     parser = argparse.ArgumentParser()
     parser.add_argument('addr_strs', metavar='ip_addr', nargs='+')
+    parser.add_argument('--block-size', type=int)
+    parser.add_argument('--num-subnets', type=int)
     return parser.parse_args()
 
 
-def main():
-
-    cli_args = parse_cli_args()
-
-    if len(cli_args.addr_strs) > 1:
-
-        bin_addr_1, num_subnet_bits_1 = parse_addr_str(cli_args.addr_strs[0])
-        bin_addr_2, num_subnet_bits_2 = parse_addr_str(cli_args.addr_strs[1])
-
-        print('Given IP addresses:')
-        print_addr(bin_addr_1)
-        print_addr(bin_addr_2)
-
-        if num_subnet_bits_1 is not None and num_subnet_bits_2 is not None:
-            print('Can these IP addresses communicate?')
-            network_id_1 = get_network_id(bin_addr_1, num_subnet_bits_1)
-            network_id_2 = get_network_id(bin_addr_2, num_subnet_bits_2)
-            if network_id_1 == network_id_2:
-                print(indent('Yes', INDENT_LEVEL))
-            else:
-                print(indent('No', INDENT_LEVEL))
-
-        print('Largest subnet mask needed to communicate:')
-        largest_subnet_mask = get_largest_subnet_mask(bin_addr_1, bin_addr_2)
-        num_subnet_bits = largest_subnet_mask.count('1')
-        print(indent('{} bits'.format(num_subnet_bits), INDENT_LEVEL))
-        print_addr(largest_subnet_mask)
-
-        bin_addr = bin_addr_1
-
-    else:
-
-        bin_addr, num_subnet_bits = parse_addr_str(cli_args.addr_strs[0])
-
-        print('Given IP addresses:')
-        print_addr(bin_addr)
-
-        if num_subnet_bits is None:
-            raise RuntimeError('Number of subnet bits not supplied')
-
-        print('Subnet mask:')
-        print_addr(get_subnet_mask(num_subnet_bits))
+def print_addr_details(bin_addr, num_subnet_bits):
 
     print('Network ID:')
     print_addr(get_network_id(bin_addr, num_subnet_bits))
@@ -176,6 +142,57 @@ def main():
 
     print('Subnet Size: 2^{} - 2 = {}'.format(
         32 - num_subnet_bits, get_subnet_size(num_subnet_bits)))
+
+
+def print_addrs_can_communicate(bin_addr_1, num_subnet_bits_1,
+                                bin_addr_2, num_subnet_bits_2):
+
+    if num_subnet_bits_1 is not None and num_subnet_bits_2 is not None:
+        print('Can these IP addresses communicate?')
+        network_id_1 = get_network_id(bin_addr_1, num_subnet_bits_1)
+        network_id_2 = get_network_id(bin_addr_2, num_subnet_bits_2)
+        if network_id_1 == network_id_2:
+            print(indent('Yes', INDENT_LEVEL))
+        else:
+            print(indent('No', INDENT_LEVEL))
+
+
+def main():
+
+    cli_args = parse_cli_args()
+
+    if len(cli_args.addr_strs) == 2:
+
+        bin_addr_1, num_subnet_bits_1 = parse_addr_str(cli_args.addr_strs[0])
+        bin_addr_2, num_subnet_bits_2 = parse_addr_str(cli_args.addr_strs[1])
+
+        print('Given IP addresses:')
+        print_addr(bin_addr_1)
+        print_addr(bin_addr_2)
+
+        print_addrs_can_communicate(
+            bin_addr_1, num_subnet_bits_1,
+            bin_addr_2, num_subnet_bits_2)
+
+        print('Largest subnet mask allowing communication:')
+        largest_subnet_mask = get_largest_subnet_mask(bin_addr_1, bin_addr_2)
+        num_subnet_bits = largest_subnet_mask.count('1')
+        print(indent('{} bits'.format(num_subnet_bits), INDENT_LEVEL))
+        print_addr(largest_subnet_mask)
+
+        bin_addr = bin_addr_1
+
+    elif len(cli_args.addr_strs) == 1:
+
+        bin_addr, num_subnet_bits = parse_addr_str(cli_args.addr_strs[0])
+
+        print('Given IP addresses:')
+        print_addr(bin_addr)
+
+        print('Subnet mask:')
+        print_addr(get_subnet_mask(num_subnet_bits))
+
+    print_addr_details(bin_addr, num_subnet_bits)
 
 
 if __name__ == '__main__':
