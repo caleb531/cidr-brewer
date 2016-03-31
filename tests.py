@@ -82,6 +82,18 @@ class TestCIDRBrewer(unittest.TestCase):
             block_size=16),
             '00010000001000111001110110010000')
 
+    def test_get_blocks(self):
+        """Should compute the list of data for each block"""
+        self.assertEqual(cidrbrewer.get_blocks(
+            '00010000001000111001110110000000',
+            num_subnet_bits=26,
+            block_sizes=(16, 64, 16, 32)),
+            [
+                (64, '00010000001000111001110110000000', 26),
+                (32, '00010000001000111001110111000000', 27),
+                (16, '00010000001000111001110111100000', 28),
+                (16, '00010000001000111001110111110000', 28)
+            ])
 
 if __name__ == '__main__':
     unittest.main()

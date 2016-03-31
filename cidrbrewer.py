@@ -192,19 +192,35 @@ def get_block_network_id(bin_addr, num_subnet_bits, block_size):
     return subnet_part + host_part
 
 
-def print_block_details(bin_addr, num_subnet_bits, block_sizes):
+# Return a list of blocks, where each block is a tuple containing its size,
+# network ID, and number of subnet bits
+def get_blocks(bin_addr, num_subnet_bits, block_sizes):
 
     prev_block_size = 0
     block_network_id = bin_addr
-    for block_num, block_size in enumerate(reversed(sorted(block_sizes)), 1):
+    blocks = []
+    for block_size in reversed(sorted(block_sizes)):
+
         num_block_subnet_bits = 32 - int(math.log2(block_size))
-        print('Block {}:'.format(block_num))
         block_network_id = get_block_network_id(
             block_network_id, num_subnet_bits, prev_block_size)
+        blocks.append(
+            (block_size, block_network_id, num_block_subnet_bits))
+        prev_block_size = block_size
+
+    return blocks
+
+
+def print_blocks(bin_addr, num_subnet_bits, block_sizes):
+
+    blocks = get_blocks(
+        bin_addr, num_subnet_bits, block_sizes)
+    for block_num, (block_size, block_network_id, num_block_subnet_bits) in \
+            enumerate(blocks, 1):
+        print('Block {}:'.format(block_num))
         print(indent('Block Size: {}'.format(block_size)))
         print(indent('Network ID:'))
         print_addr(block_network_id, num_block_subnet_bits, indent_level=2)
-        prev_block_size = block_size
 
 
 def handle_one_addr(addr_strs, block_sizes):
@@ -215,7 +231,7 @@ def handle_one_addr(addr_strs, block_sizes):
     print_addr(bin_addr, num_subnet_bits)
 
     if block_sizes:
-        print_block_details(bin_addr, num_subnet_bits, block_sizes)
+        print_blocks(bin_addr, num_subnet_bits, block_sizes)
     else:
         print('Subnet mask:')
         print_addr(get_subnet_mask(num_subnet_bits))
