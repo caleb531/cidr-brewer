@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
 
+import contextlib
+import io
+
 import nose.tools as nose
 
 import cidrbrewer
@@ -90,6 +93,40 @@ def test_get_largest_subnet_mask_same_addr():
         '01111101001011110010000000101010',
         '01111101001011110010000000101010'),
         '11111111111111111111111111111100')
+
+
+def test_indent():
+    """Should indent the given output by the given indent level."""
+    nose.assert_equal(
+        cidrbrewer.indent('IP Address:', indent_level=2),
+        '{}IP Address:'.format(' ' * 6))
+
+
+def test_print_addr():
+    """Should print IP address in decimal and binary formats."""
+    out = io.StringIO()
+    with contextlib.redirect_stdout(out):
+        cidrbrewer.print_addr(
+            '11001000000101110001000001011100',
+            indent_level=2)
+        nose.assert_equal(
+            out.getvalue().rstrip(),
+            '{}200.23.16.92{}11001000.00010111.00010000.01011100'.format(
+                ' ' * 6, ' ' * 7))
+
+
+def test_print_addr_num_subnet_bits():
+    """Should print IP address in decimal slash and binary formats."""
+    out = io.StringIO()
+    with contextlib.redirect_stdout(out):
+        cidrbrewer.print_addr(
+            '11001000000101110001000001011100',
+            num_subnet_bits=26,
+            indent_level=2)
+        nose.assert_equal(
+            out.getvalue().rstrip(),
+            '{}200.23.16.92/26{}11001000.00010111.00010000.01011100'.format(
+                ' ' * 6, ' ' * 4))
 
 
 def test_get_block_network_id():
