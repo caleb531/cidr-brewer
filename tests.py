@@ -2,6 +2,8 @@
 
 import contextlib
 import io
+import re
+from unittest.mock import call, patch
 
 import nose.tools as nose
 
@@ -192,8 +194,9 @@ def test_get_blocks():
         ])
 
 
-def test_print_blocks():
-    """Should print details for IP address blocks"""
+@patch('cidrbrewer.print_addr_details')
+def test_print_blocks(print_addr_details):
+    """Should print details for IP address blocks."""
     out = io.StringIO()
     with contextlib.redirect_stdout(out):
         cidrbrewer.print_blocks(
@@ -201,10 +204,20 @@ def test_print_blocks():
             num_subnet_bits=25,
             block_sizes=(16, 64, 16, 32))
     output = out.getvalue()
-    block_1_index = output.index('Block 1:')
-    block_2_index = output.index('Block 2:')
-    block_3_index = output.index('Block 3:')
-    block_4_index = output.index('Block 4:')
-    nose.assert_less(block_1_index, block_2_index)
-    nose.assert_less(block_2_index, block_3_index)
-    nose.assert_less(block_3_index, block_4_index)
+    block_1_matches = re.search(r'{}\n\s+{}'.format(
+        'Block 1:', r'Block Size: 2\^6 = 64'), output)
+    block_2_matches = re.search(r'{}\n\s+{}'.format(
+        'Block 2:', r'Block Size: 2\^5 = 32'), output)
+    block_3_matches = re.search(r'{}\n\s+{}'.format(
+        'Block 3:', r'Block Size: 2\^4 = 16'), output)
+    block_4_matches = re.search(r'{}\n\s+{}'.format(
+        'Block 4:', r'Block Size: 2\^4 = 16'), output)
+    nose.assert_less(block_1_matches.start(0), block_2_matches.start(0))
+    nose.assert_less(block_2_matches.start(0), block_3_matches.start(0))
+    nose.assert_less(block_3_matches.start(0), block_4_matches.start(0))
+    nose.assert_equal(print_addr_details.call_args_list, [
+        call('00101010011100101001100010000000', 26, indent_level=1),
+        call('00101010011100101001100011000000', 27, indent_level=1),
+        call('00101010011100101001100011100000', 28, indent_level=1),
+        call('00101010011100101001100011110000', 28, indent_level=1)
+    ])
