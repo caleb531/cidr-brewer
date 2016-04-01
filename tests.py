@@ -51,7 +51,7 @@ def test_prettify_bin_addr():
 
 
 def test_get_prettified_dec_addr():
-    """Should build a prettified decimal IP address"""
+    """Should build a prettified decimal IP address."""
     nose.assert_equal(cidrbrewer.get_prettified_dec_addr(
         '11001000000101110001000001011100'), '200.23.16.92')
 
@@ -68,13 +68,13 @@ def test_is_reserved_addr():
 
 
 def test_is_reserved_network_id():
-    """Should determine that a network ID is reserved"""
+    """Should determine that a network ID is reserved."""
     nose.assert_equal(cidrbrewer.is_reserved(
         '11001000000101110001000001010000', 28), True)
 
 
 def test_is_reserved_broadcast_id():
-    """Should determine that a broadcast ID is reserved"""
+    """Should determine that a broadcast ID is reserved."""
     nose.assert_equal(cidrbrewer.is_reserved(
         '01111101001011110010000000101111', 28), True)
 
@@ -130,21 +130,21 @@ def test_print_addr_num_subnet_bits():
 
 
 def test_parse_addr_str():
-    """Should parse an IP address string not in slash notation"""
+    """Should parse an IP address string not in slash notation."""
     nose.assert_equal(
         cidrbrewer.parse_addr_str('192.168.19.100'),
         ('11000000101010000001001101100100', None))
 
 
 def test_parse_addr_str_slash_notation():
-    """Should parse an IP address string in slash notation"""
+    """Should parse an IP address string in slash notation."""
     nose.assert_equal(
         cidrbrewer.parse_addr_str('192.168.19.100/26'),
         ('11000000101010000001001101100100', 26))
 
 
 def test_get_block_network_id():
-    """Should compute the network ID of a block"""
+    """Should compute the network ID of a block."""
     nose.assert_equal(cidrbrewer.get_block_network_id(
         '00010000001000111001110110000000',
         num_subnet_bits=26,
@@ -153,7 +153,7 @@ def test_get_block_network_id():
 
 
 def test_get_blocks():
-    """Should compute the list of data for each block"""
+    """Should compute the list of data for each block."""
     nose.assert_equal(cidrbrewer.get_blocks(
         '00010000001000111001110110000000',
         num_subnet_bits=26,
