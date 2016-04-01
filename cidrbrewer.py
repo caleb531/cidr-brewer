@@ -233,7 +233,7 @@ def print_blocks(bin_addr, num_subnet_bits, block_sizes):
             block_network_id, num_block_subnet_bits, indent_level=1)
 
 
-def handle_one_addr(addr_str, block_sizes):
+def handle_one_addr(addr_str, block_sizes=None):
 
     bin_addr, num_subnet_bits = parse_addr_str(addr_str)
 
