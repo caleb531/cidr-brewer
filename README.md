@@ -4,6 +4,7 @@
 *Released under the MIT license*
 
 [![Build Status](https://travis-ci.org/caleb531/cidr-brewer.svg?branch=master)](https://travis-ci.org/caleb531/cidr-brewer)
+[![Coverage Status](https://coveralls.io/repos/caleb531/cidr-brewer/badge.svg?branch=master)](https://coveralls.io/r/caleb531/cidr-brewer?branch=master)
 
 CIDR Brewer is a command-line utility which displays information for classless
 IP addresses (such as subnet mask and network ID) so you don't need to perform
