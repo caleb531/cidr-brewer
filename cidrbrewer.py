@@ -228,7 +228,8 @@ def print_blocks(bin_addr, num_subnet_bits, block_sizes):
     for block_num, (block_size, block_network_id, num_block_subnet_bits) in \
             enumerate(blocks, 1):
         print('Block {}:'.format(block_num))
-        print(indent('Block Size: {}'.format(block_size)))
+        print(indent('Block Size: 2^{} = {}'.format(
+            int(math.log2(block_size)), block_size)))
         print_addrs(block_network_id, num_block_subnet_bits, indent_level=1)
 
 
