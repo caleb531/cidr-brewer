@@ -155,19 +155,19 @@ def test_print_addr_details():
     output = out.getvalue()
     nose.assert_regexp_matches(output, r'{}\n\s+{}\s+{}'.format(
         'Network ID:', r'192\.168\.19\.0/25',
-        '11000000.10101000.00010011.00000000'),
+        r'11000000\.10101000\.00010011\.00000000'),
         'Network ID not printed')
     nose.assert_regexp_matches(output, r'{}\n\s+{}\s+{}'.format(
         'Broadcast ID:', r'192\.168\.19\.127',
-        '11000000.10101000.00010011.01111111'),
+        r'11000000\.10101000\.00010011\.01111111'),
         'Broadcast ID not printed')
     nose.assert_regexp_matches(output, r'{}\n\s+{}\s+{}'.format(
         'First Available Address:', r'192\.168\.19\.1',
-        '11000000.10101000.00010011.00000001'),
+        r'11000000\.10101000\.00010011\.00000001'),
         'First available address not printed')
     nose.assert_regexp_matches(output, r'{}\n\s+{}\s+{}'.format(
         'Last Available Address:', r'192\.168\.19\.126',
-        '11000000.10101000.00010011.01111110'),
+        r'11000000\.10101000\.00010011\.01111110'),
         'Last available address not printed')
 
 
@@ -180,12 +180,12 @@ def test_handle_two_addrs(print_addr_details):
     output = out.getvalue()
     nose.assert_regexp_matches(output, r'{}\n\s+{}\s+{}\n\s+{}\s+{}'.format(
         'Given IP addresses:', r'172\.16\.11\.74',
-        '10101100.00010000.00001011.01001010',
-        r'172\.16\.11\.78', '10101100.00010000.00001011.01001110'),
+        r'10101100\.00010000\.00001011\.01001010',
+        r'172\.16\.11\.78', r'10101100\.00010000\.00001011\.01001110'),
         'Given IP addresses not printed')
     nose.assert_regexp_matches(output, r'{}\n\s+{}\n\s+{}\s+{}'.format(
         'Largest subnet mask [^:]+:', '29 bits',
-        r'255\.255\.255\.248', '11111111.11111111.11111111.11111000'),
+        r'255\.255\.255\.248', r'11111111\.11111111\.11111111\.11111000'),
         'Largest subnet mask not printed')
     print_addr_details.assert_called_once_with(
         '10101100000100000000101101001010', 29)
@@ -200,8 +200,8 @@ def test_handle_two_addrs_slash_notation_communicate_no(print_addr_details):
     output = out.getvalue()
     nose.assert_regexp_matches(output, r'{}\n\s+{}\s+{}\n\s+{}\s+{}'.format(
         'Given IP addresses:', r'125\.47\.32\.170/25',
-        '01111101.00101111.00100000.10101010',
-        r'125\.47\.32\.53/25', '01111101.00101111.00100000.00110101'),
+        r'01111101\.00101111\.00100000\.10101010',
+        r'125\.47\.32\.53/25', r'01111101\.00101111\.00100000\.00110101'),
         'Given IP addresses not printed')
     nose.assert_regexp_matches(output, r'{}\n\s+{}'.format(
         r'Can these IP addresses communicate\?', 'No'),
@@ -219,8 +219,8 @@ def test_handle_two_addrs_slash_notation_communicate_yes(print_addr_details):
     output = out.getvalue()
     nose.assert_regexp_matches(output, r'{}\n\s+{}\s+{}\n\s+{}\s+{}'.format(
         'Given IP addresses:', r'125\.47\.32\.170/24',
-        '01111101.00101111.00100000.10101010',
-        r'125\.47\.32\.53/24', '01111101.00101111.00100000.00110101'),
+        r'01111101\.00101111\.00100000\.10101010',
+        r'125\.47\.32\.53/24', r'01111101\.00101111\.00100000\.00110101'),
         'Given IP addresses not printed')
     nose.assert_regexp_matches(output, r'{}\n\s+{}'.format(
         r'Can these IP addresses communicate\?', 'Yes'),
