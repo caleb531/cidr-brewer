@@ -279,3 +279,31 @@ def test_print_blocks(print_addr_details):
         call('00101010011100101001100011100000', 28, indent_level=1),
         call('00101010011100101001100011110000', 28, indent_level=1)
     ])
+
+
+@patch('cidrbrewer.print_addr_details')
+def test_handle_one_addr(print_addr_details):
+    """Should display information for one IP address."""
+    out = io.StringIO()
+    with contextlib.redirect_stdout(out):
+        cidrbrewer.handle_one_addr('192.168.19.100/25')
+    output = out.getvalue()
+    nose.assert_regexp_matches(output, r'{}\n\s+{}\s+{}'.format(
+        'Given IP address:', r'192\.168\.19\.100/25',
+        r'11000000\.10101000\.00010011\.01100100'),
+        'Given IP address not printed')
+    nose.assert_regexp_matches(output, r'{}\n\s+{}\s+{}'.format(
+        'Subnet mask:', r'255\.255\.255\.128',
+        r'11111111\.11111111\.11111111\.10000000'),
+        'Subnet mask not printed')
+    print_addr_details.assert_called_once_with(
+        '11000000101010000001001101100100', 25)
+
+
+@patch('cidrbrewer.print_blocks')
+def test_handle_one_addr_block_sizes(print_blocks):
+    """Should display information for one IP address and given block sizes."""
+    with contextlib.redirect_stdout(None):
+        cidrbrewer.handle_one_addr('192.168.19.100/25', [16, 64, 16, 32])
+    print_blocks.assert_called_once_with(
+        '11000000101010000001001101100100', 25, [16, 64, 16, 32])
