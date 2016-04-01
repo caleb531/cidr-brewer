@@ -307,3 +307,30 @@ def test_handle_one_addr_block_sizes(print_blocks):
         cidrbrewer.handle_one_addr('192.168.19.100/25', [16, 64, 16, 32])
     print_blocks.assert_called_once_with(
         '11000000101010000001001101100100', 25, [16, 64, 16, 32])
+
+
+@patch('cidrbrewer.handle_one_addr')
+@patch('sys.argv', [__file__, '192.168.19.100/25'])
+def test_main_one_addr(handle_one_addr):
+    """Should handle one IP address when running main function."""
+    with contextlib.redirect_stdout(None):
+        cidrbrewer.main()
+    handle_one_addr.assert_called_once_with('192.168.19.100/25', None)
+
+
+@patch('cidrbrewer.handle_two_addrs')
+@patch('sys.argv', [__file__, '125.47.32.170/25', '125.47.32.53/25'])
+def test_main_two_addrs(handle_two_addrs):
+    """Should handle two IP addresses when running main function."""
+    with contextlib.redirect_stdout(None):
+        cidrbrewer.main()
+    handle_two_addrs.assert_called_once_with(
+        '125.47.32.170/25', '125.47.32.53/25')
+
+
+@patch('sys.argv', [__file__, '125.47.32.170/25', '125.47.32.53/25',
+                    '125.47.32.54/25'])
+def test_main_unsupported():
+    """Should raise error when given an unsupported number of addresses."""
+    with nose.assert_raises(RuntimeError):
+        cidrbrewer.main()

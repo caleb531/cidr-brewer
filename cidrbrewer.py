@@ -256,7 +256,7 @@ def main():
     elif len(cli_args.addr_strs) == 1:
         handle_one_addr(cli_args.addr_strs[0], cli_args.block_sizes)
     else:
-        raise RuntimeError('Invalid utility arguments')
+        raise RuntimeError('Unsupported utility arguments')
 
 
 if __name__ == '__main__':
