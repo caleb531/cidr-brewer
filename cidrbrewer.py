@@ -190,7 +190,7 @@ def handle_two_addrs(addr_strs):
     print('Largest subnet mask allowing communication:')
     largest_subnet_mask = get_largest_subnet_mask(bin_addr_1, bin_addr_2)
     num_subnet_bits = largest_subnet_mask.count('1')
-    print(indent('{} bits'.format(num_subnet_bits), SPACES_PER_INDENT))
+    print(indent('{} bits'.format(num_subnet_bits), indent_level=1))
     print_addr(largest_subnet_mask)
 
     print_addr_details(bin_addr_1, num_subnet_bits)
