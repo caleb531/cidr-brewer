@@ -180,8 +180,8 @@ def handle_two_addrs(addr_strs):
     bin_addr_2, num_subnet_bits_2 = parse_addr_str(addr_strs[1])
 
     print('Given IP addresses:')
-    print_addr(bin_addr_1)
-    print_addr(bin_addr_2)
+    print_addr(bin_addr_1, num_subnet_bits_1)
+    print_addr(bin_addr_2, num_subnet_bits_2)
 
     print_addrs_can_communicate(
         bin_addr_1, num_subnet_bits_1,

@@ -171,6 +171,64 @@ def test_print_addr_details():
         'Last available address not printed')
 
 
+@patch('cidrbrewer.print_addr_details')
+def test_handle_two_addrs(print_addr_details):
+    """Should display information for two IP addresses."""
+    out = io.StringIO()
+    with contextlib.redirect_stdout(out):
+        cidrbrewer.handle_two_addrs(('172.16.11.74', '172.16.11.78'))
+    output = out.getvalue()
+    nose.assert_regexp_matches(output, r'{}\n\s+{}\s+{}\n\s+{}\s+{}'.format(
+        'Given IP addresses:', '172.16.11.74',
+        '10101100.00010000.00001011.01001010',
+        '172.16.11.78', '10101100.00010000.00001011.01001110'),
+        'Given IP addresses not printed')
+    nose.assert_regexp_matches(output, r'{}\n\s+{}\n\s+{}\s+{}'.format(
+        'Largest subnet mask [^:]+:', '29 bits',
+        '255.255.255.248', '11111111.11111111.11111111.11111000'),
+        'Largest subnet mask not printed')
+    print_addr_details.assert_called_once_with(
+        '10101100000100000000101101001010', 29)
+
+
+@patch('cidrbrewer.print_addr_details')
+def test_handle_two_addrs_slash_notation_communicate_no(print_addr_details):
+    """Should print info for two IP addresses in slash notation."""
+    out = io.StringIO()
+    with contextlib.redirect_stdout(out):
+        cidrbrewer.handle_two_addrs(('125.47.32.170/25', '125.47.32.53/25'))
+    output = out.getvalue()
+    nose.assert_regexp_matches(output, r'{}\n\s+{}\s+{}\n\s+{}\s+{}'.format(
+        'Given IP addresses:', '125.47.32.170/25',
+        '01111101.00101111.00100000.10101010',
+        '125.47.32.53/25', '01111101.00101111.00100000.00110101'),
+        'Given IP addresses not printed')
+    nose.assert_regexp_matches(output, r'{}\n\s+{}'.format(
+        r'Can these IP addresses communicate\?', 'No'),
+        '"Can communicate" message not printed')
+    print_addr_details.assert_called_once_with(
+        '01111101001011110010000010101010', 24)
+
+
+@patch('cidrbrewer.print_addr_details')
+def test_handle_two_addrs_slash_notation_communicate_yes(print_addr_details):
+    """Should print info for two same-subnet IP addresses in slash notation."""
+    out = io.StringIO()
+    with contextlib.redirect_stdout(out):
+        cidrbrewer.handle_two_addrs(('125.47.32.170/24', '125.47.32.53/24'))
+    output = out.getvalue()
+    nose.assert_regexp_matches(output, r'{}\n\s+{}\s+{}\n\s+{}\s+{}'.format(
+        'Given IP addresses:', '125.47.32.170/24',
+        '01111101.00101111.00100000.10101010',
+        '125.47.32.53/24', '01111101.00101111.00100000.00110101'),
+        'Given IP addresses not printed')
+    nose.assert_regexp_matches(output, r'{}\n\s+{}'.format(
+        r'Can these IP addresses communicate\?', 'Yes'),
+        '"Can communicate" message not printed')
+    print_addr_details.assert_called_once_with(
+        '01111101001011110010000010101010', 24)
+
+
 def test_get_block_network_id():
     """Should compute the network ID of a block."""
     nose.assert_equal(cidrbrewer.get_block_network_id(
