@@ -223,8 +223,7 @@ def get_blocks(bin_addr, num_subnet_bits, block_sizes):
 
 def print_blocks(bin_addr, num_subnet_bits, block_sizes):
 
-    blocks = get_blocks(
-        bin_addr, num_subnet_bits, block_sizes)
+    blocks = get_blocks(bin_addr, num_subnet_bits, block_sizes)
     for block_num, (block_size, block_network_id, num_block_subnet_bits) in \
             enumerate(blocks, 1):
         print('Block {}:'.format(block_num))
