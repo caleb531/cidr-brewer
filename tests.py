@@ -129,6 +129,20 @@ def test_print_addr_num_subnet_bits():
                 ' ' * 6, ' ' * 4))
 
 
+def test_parse_addr_str():
+    """Should parse an IP address string not in slash notation"""
+    nose.assert_equal(
+        cidrbrewer.parse_addr_str('192.168.19.100'),
+        ('11000000101010000001001101100100', None))
+
+
+def test_parse_addr_str_slash_notation():
+    """Should parse an IP address string in slash notation"""
+    nose.assert_equal(
+        cidrbrewer.parse_addr_str('192.168.19.100/26'),
+        ('11000000101010000001001101100100', 26))
+
+
 def test_get_block_network_id():
     """Should compute the network ID of a block"""
     nose.assert_equal(cidrbrewer.get_block_network_id(
