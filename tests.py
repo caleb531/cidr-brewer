@@ -109,10 +109,10 @@ def test_print_addr():
         cidrbrewer.print_addr(
             '11001000000101110001000001011100',
             indent_level=2)
-        nose.assert_equal(
-            out.getvalue().rstrip(),
-            '{}200.23.16.92{}11001000.00010111.00010000.01011100'.format(
-                ' ' * 6, ' ' * 7))
+    nose.assert_equal(
+        out.getvalue().rstrip(),
+        '{}200.23.16.92{}11001000.00010111.00010000.01011100'.format(
+            ' ' * 6, ' ' * 7))
 
 
 def test_print_addr_num_subnet_bits():
@@ -123,10 +123,10 @@ def test_print_addr_num_subnet_bits():
             '11001000000101110001000001011100',
             num_subnet_bits=26,
             indent_level=2)
-        nose.assert_equal(
-            out.getvalue().rstrip(),
-            '{}200.23.16.92/26{}11001000.00010111.00010000.01011100'.format(
-                ' ' * 6, ' ' * 4))
+    nose.assert_equal(
+        out.getvalue().rstrip(),
+        '{}200.23.16.92/26{}11001000.00010111.00010000.01011100'.format(
+            ' ' * 6, ' ' * 4))
 
 
 def test_parse_addr_str():
@@ -151,22 +151,22 @@ def test_print_addr_details():
             '11000000101010000001001101100100',
             num_subnet_bits=25,
             indent_level=2)
-        nose.assert_regexp_matches(out.getvalue(), r'{}\n\s+{}\s+{}'.format(
-            'Network ID:', '192.168.19.0/25',
-            '11000000.10101000.00010011.00000000'),
-            'Network ID not printed')
-        nose.assert_regexp_matches(out.getvalue(), r'{}\n\s+{}\s+{}'.format(
-            'Broadcast ID:', '192.168.19.127',
-            '11000000.10101000.00010011.01111111'),
-            'Broadcast ID not printed')
-        nose.assert_regexp_matches(out.getvalue(), r'{}\n\s+{}\s+{}'.format(
-            'First Available Address:', '192.168.19.1',
-            '11000000.10101000.00010011.00000001'),
-            'First available address not printed')
-        nose.assert_regexp_matches(out.getvalue(), r'{}\n\s+{}\s+{}'.format(
-            'Last Available Address:', '192.168.19.126',
-            '11000000.10101000.00010011.01111110'),
-            'Last available address not printed')
+    nose.assert_regexp_matches(out.getvalue(), r'{}\n\s+{}\s+{}'.format(
+        'Network ID:', '192.168.19.0/25',
+        '11000000.10101000.00010011.00000000'),
+        'Network ID not printed')
+    nose.assert_regexp_matches(out.getvalue(), r'{}\n\s+{}\s+{}'.format(
+        'Broadcast ID:', '192.168.19.127',
+        '11000000.10101000.00010011.01111111'),
+        'Broadcast ID not printed')
+    nose.assert_regexp_matches(out.getvalue(), r'{}\n\s+{}\s+{}'.format(
+        'First Available Address:', '192.168.19.1',
+        '11000000.10101000.00010011.00000001'),
+        'First available address not printed')
+    nose.assert_regexp_matches(out.getvalue(), r'{}\n\s+{}\s+{}'.format(
+        'Last Available Address:', '192.168.19.126',
+        '11000000.10101000.00010011.01111110'),
+        'Last available address not printed')
 
 
 def test_get_block_network_id():
