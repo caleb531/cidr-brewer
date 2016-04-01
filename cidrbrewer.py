@@ -133,7 +133,7 @@ def parse_cli_args():
     return parser.parse_args()
 
 
-def print_addr_details(bin_addr, num_subnet_bits, indent_level=1):
+def print_addr_details(bin_addr, num_subnet_bits, indent_level=0):
 
     print(indent('Network ID:', indent_level=indent_level))
     print_addr(
