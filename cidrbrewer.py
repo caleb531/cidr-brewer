@@ -174,10 +174,10 @@ def print_addrs_can_communicate(bin_addr_1, num_subnet_bits_1,
             print(indent('No'))
 
 
-def handle_two_addrs(addr_strs):
+def handle_two_addrs(addr_str_1, addr_str_2):
 
-    bin_addr_1, num_subnet_bits_1 = parse_addr_str(addr_strs[0])
-    bin_addr_2, num_subnet_bits_2 = parse_addr_str(addr_strs[1])
+    bin_addr_1, num_subnet_bits_1 = parse_addr_str(addr_str_1)
+    bin_addr_2, num_subnet_bits_2 = parse_addr_str(addr_str_2)
 
     print('Given IP addresses:')
     print_addr(bin_addr_1, num_subnet_bits_1)
@@ -233,9 +233,9 @@ def print_blocks(bin_addr, num_subnet_bits, block_sizes):
             block_network_id, num_block_subnet_bits, indent_level=1)
 
 
-def handle_one_addr(addr_strs, block_sizes):
+def handle_one_addr(addr_str, block_sizes):
 
-    bin_addr, num_subnet_bits = parse_addr_str(addr_strs[0])
+    bin_addr, num_subnet_bits = parse_addr_str(addr_str)
 
     print('Given IP address:')
     print_addr(bin_addr, num_subnet_bits)
@@ -252,9 +252,9 @@ def main():
 
     cli_args = parse_cli_args()
     if len(cli_args.addr_strs) == 2:
-        handle_two_addrs(cli_args.addr_strs)
+        handle_two_addrs(*cli_args.addr_strs)
     elif len(cli_args.addr_strs) == 1:
-        handle_one_addr(cli_args.addr_strs, cli_args.block_sizes)
+        handle_one_addr(*cli_args.addr_strs, cli_args.block_sizes)
     else:
         raise RuntimeError('Invalid utility arguments')
 

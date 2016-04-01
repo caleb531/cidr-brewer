@@ -176,7 +176,7 @@ def test_handle_two_addrs(print_addr_details):
     """Should display information for two IP addresses."""
     out = io.StringIO()
     with contextlib.redirect_stdout(out):
-        cidrbrewer.handle_two_addrs(('172.16.11.74', '172.16.11.78'))
+        cidrbrewer.handle_two_addrs('172.16.11.74', '172.16.11.78')
     output = out.getvalue()
     nose.assert_regexp_matches(output, r'{}\n\s+{}\s+{}\n\s+{}\s+{}'.format(
         'Given IP addresses:', '172.16.11.74',
@@ -196,7 +196,7 @@ def test_handle_two_addrs_slash_notation_communicate_no(print_addr_details):
     """Should print info for two IP addresses in slash notation."""
     out = io.StringIO()
     with contextlib.redirect_stdout(out):
-        cidrbrewer.handle_two_addrs(('125.47.32.170/25', '125.47.32.53/25'))
+        cidrbrewer.handle_two_addrs('125.47.32.170/25', '125.47.32.53/25')
     output = out.getvalue()
     nose.assert_regexp_matches(output, r'{}\n\s+{}\s+{}\n\s+{}\s+{}'.format(
         'Given IP addresses:', '125.47.32.170/25',
@@ -215,7 +215,7 @@ def test_handle_two_addrs_slash_notation_communicate_yes(print_addr_details):
     """Should print info for two same-subnet IP addresses in slash notation."""
     out = io.StringIO()
     with contextlib.redirect_stdout(out):
-        cidrbrewer.handle_two_addrs(('125.47.32.170/24', '125.47.32.53/24'))
+        cidrbrewer.handle_two_addrs('125.47.32.170/24', '125.47.32.53/24')
     output = out.getvalue()
     nose.assert_regexp_matches(output, r'{}\n\s+{}\s+{}\n\s+{}\s+{}'.format(
         'Given IP addresses:', '125.47.32.170/24',
