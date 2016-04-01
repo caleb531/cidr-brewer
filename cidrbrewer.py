@@ -84,7 +84,7 @@ def is_reserved(bin_addr, num_subnet_bits):
 
 # Get the largest subnet mask needed for two IP addresses to communicate
 def get_largest_subnet_mask(bin_addr_1, bin_addr_2):
-    for i in reversed(range(32)):
+    for i in reversed(range(31)):
         bin_addr_1_left = bin_addr_1[:i]
         bin_addr_2_left = bin_addr_2[:i]
         if (bin_addr_1_left == bin_addr_2_left and

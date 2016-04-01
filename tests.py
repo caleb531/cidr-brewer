@@ -84,6 +84,14 @@ def test_get_largest_subnet_mask():
         '11111111111111111111111111100000')
 
 
+def test_get_largest_subnet_mask_same_addr():
+    """Should compute the largest subnet mask for the same IP address."""
+    nose.assert_equal(cidrbrewer.get_largest_subnet_mask(
+        '01111101001011110010000000101010',
+        '01111101001011110010000000101010'),
+        '11111111111111111111111111111100')
+
+
 def test_get_block_network_id():
     """Should compute the network ID of a block"""
     nose.assert_equal(cidrbrewer.get_block_network_id(
