@@ -255,6 +255,8 @@ def main():
         handle_two_addrs(cli_args.addr_strs)
     elif len(cli_args.addr_strs) == 1:
         handle_one_addr(cli_args.addr_strs, cli_args.block_sizes)
+    else:
+        raise RuntimeError('Invalid utility arguments')
 
 
 if __name__ == '__main__':
