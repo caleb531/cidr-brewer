@@ -1,16 +1,12 @@
 #!/usr/bin/env python3
 
 import argparse
+import functools
 import math
 
 
 # The number of spaces used per indentation level when displaying output
 SPACES_PER_INDENT = 3
-
-
-# Converts the given binary octet to decimal
-def bin_to_dec_num(bin_octet):
-    return int(bin_octet, 2)
 
 
 # Converts the given decimal octet to binary
@@ -67,7 +63,7 @@ def prettify_bin_addr(bin_addr):
 # Converts a binary address to a prettified decimal address
 def get_prettified_dec_addr(bin_addr):
     octets = get_addr_octets(bin_addr)
-    return '.'.join(map(str, map(bin_to_dec_num, octets)))
+    return '.'.join(map(str, map(functools.partial(int, base=2), octets)))
 
 
 # Compute the subnet size given the number of bits used for the subnet ID
