@@ -9,13 +9,13 @@ import math
 SPACES_PER_INDENT = 3
 
 
-# Converts the given decimal octet to binary
+# Converts the given decimal number to a binary octet
 def dec_to_bin_octet(dec_octet):
     # The bin() function returns a string prefixed with '0b'; strip it
     return bin(int(dec_octet))[2:].zfill(8)
 
 
-# Add two binary numbers and returns the result
+# Adds a decimal number to a binary number
 def add_dec_to_bin(bin_num, dec_num):
     return bin(int(bin_num, 2) + dec_num)[2:].zfill(len(bin_num))
 
@@ -39,23 +39,23 @@ def get_network_id(bin_addr, num_subnet_bits):
     return bin_addr[:num_subnet_bits].ljust(32, '0')
 
 
-# Computes the broadcast ID given a binary address and the number of bits used
-# for the subnet
+# Computes the broadcast ID given the binary address and the number of bits
+# used for the subnet
 def get_broadcast_id(bin_addr, num_subnet_bits):
     return bin_addr[:num_subnet_bits].ljust(32, '1')
 
 
-# Get the first available IP address in the defined subnet
+# Computes the first available IP address in the defined subnet
 def get_first_available_addr(bin_addr, num_subnet_bits):
     return get_network_id(bin_addr, num_subnet_bits)[:31] + '1'
 
 
-# Get the last available IP address in the defined subnet
+# Computes the last available IP address in the defined subnet
 def get_last_available_addr(bin_addr, num_subnet_bits):
     return get_broadcast_id(bin_addr, num_subnet_bits)[:31] + '0'
 
 
-# Prettifies the given binary address by adding dots between octets
+# Prettifies the given binary address by adding separating octets with dots
 def prettify_bin_addr(bin_addr):
     return '.'.join(get_addr_octets(bin_addr))
 
@@ -66,7 +66,7 @@ def get_prettified_dec_addr(bin_addr):
     return '.'.join(map(str, map(functools.partial(int, base=2), octets)))
 
 
-# Compute the subnet size given the number of bits used for the subnet ID
+# Computes the subnet size given the number of bits used for the subnet ID
 def get_subnet_size(num_subnet_bits):
     return 2**(32 - num_subnet_bits) - 2
 
@@ -78,7 +78,7 @@ def is_reserved(bin_addr, num_subnet_bits):
             host_part.count('0') == len(host_part))
 
 
-# Get the largest subnet mask needed for two IP addresses to communicate
+# Computes the largest subnet mask that allows two IP addresses to communicate
 def get_largest_subnet_mask(bin_addr_1, bin_addr_2):
     for i in reversed(range(31)):  # pragma: no branch
         bin_addr_1_left = bin_addr_1[:i]
@@ -120,6 +120,7 @@ def parse_addr_str(addr_str):
     return bin_addr, num_subnet_bits
 
 
+# Parses command-line arguments passed to the utility
 def parse_cli_args():
 
     parser = argparse.ArgumentParser()
@@ -129,6 +130,7 @@ def parse_cli_args():
     return parser.parse_args()
 
 
+# Prints details (like network ID and broadcast ID) for the given IP address
 def print_addr_details(bin_addr, num_subnet_bits, indent_level=0):
 
     print(indent('Network ID:', indent_level=indent_level))
@@ -157,6 +159,8 @@ def print_addr_details(bin_addr, num_subnet_bits, indent_level=0):
         indent_level=indent_level))
 
 
+# Prints 'Yes' or 'No' depending on whether or not two IP addresses can
+# communicate on their respective subnets
 def print_addrs_can_communicate(bin_addr_1, num_subnet_bits_1,
                                 bin_addr_2, num_subnet_bits_2):
 
@@ -170,6 +174,7 @@ def print_addrs_can_communicate(bin_addr_1, num_subnet_bits_1,
             print(indent('No'))
 
 
+# Takes the appropriate action when two IP addresses are passed to the utility
 def handle_two_addrs(addr_str_1, addr_str_2):
 
     bin_addr_1, num_subnet_bits_1 = parse_addr_str(addr_str_1)
@@ -198,7 +203,7 @@ def get_block_network_id(bin_addr, num_subnet_bits, block_size):
     return subnet_part + host_part
 
 
-# Return a list of blocks, where each block is a tuple containing its size,
+# Returns a list of blocks, where each block is a tuple containing its size,
 # network ID, and number of subnet bits
 def get_blocks(bin_addr, num_subnet_bits, block_sizes):
 
@@ -217,6 +222,8 @@ def get_blocks(bin_addr, num_subnet_bits, block_sizes):
     return blocks
 
 
+# Prints details for every sub-block created from an IP address and a sequence
+# of block sizes
 def print_blocks(bin_addr, num_subnet_bits, block_sizes):
 
     blocks = get_blocks(bin_addr, num_subnet_bits, block_sizes)
@@ -229,6 +236,7 @@ def print_blocks(bin_addr, num_subnet_bits, block_sizes):
             block_network_id, num_block_subnet_bits, indent_level=1)
 
 
+# Takes the appropriate action when one IP address is passed to the utility
 def handle_one_addr(addr_str, block_sizes=None):
 
     bin_addr, num_subnet_bits = parse_addr_str(addr_str)
