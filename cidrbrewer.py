@@ -124,7 +124,8 @@ def parse_addr_str(addr_str):
 def parse_cli_args():
 
     parser = argparse.ArgumentParser()
-    parser.add_argument('addr_strs', metavar='ip_addr', nargs='+')
+    parser.add_argument('addr_str_1', metavar='ip_addr')
+    parser.add_argument('addr_str_2', metavar='ip_addr', nargs='?')
     parser.add_argument('--block-sizes', type=int, nargs='*')
     parser.add_argument('--num-subnets', type=int)
     return parser.parse_args()
@@ -255,12 +256,10 @@ def handle_one_addr(addr_str, block_sizes=None):
 def main():
 
     cli_args = parse_cli_args()
-    if len(cli_args.addr_strs) == 2:
-        handle_two_addrs(*cli_args.addr_strs)
-    elif len(cli_args.addr_strs) == 1:
-        handle_one_addr(cli_args.addr_strs[0], cli_args.block_sizes)
+    if cli_args.addr_str_2:
+        handle_two_addrs(cli_args.addr_str_1, cli_args.addr_str_2)
     else:
-        raise RuntimeError('Unsupported utility arguments')
+        handle_one_addr(cli_args.addr_str_1, cli_args.block_sizes)
 
 
 if __name__ == '__main__':

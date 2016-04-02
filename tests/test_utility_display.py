@@ -195,11 +195,3 @@ def test_main_two_addrs(handle_two_addrs):
         cidrbrewer.main()
     handle_two_addrs.assert_called_once_with(
         '125.47.32.170/25', '125.47.32.53/25')
-
-
-@patch('sys.argv', [__file__, '125.47.32.170/25', '125.47.32.53/25',
-                    '125.47.32.54/25'])
-def test_main_unsupported():
-    """Should raise error when given an unsupported number of addresses."""
-    with nose.assert_raises(RuntimeError):
-        cidrbrewer.main()
