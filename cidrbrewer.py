@@ -108,7 +108,7 @@ def print_addr(bin_addr, num_subnet_bits=None, indent_level=1):
         prettified_dec_addr = get_prettified_dec_addr(bin_addr)
     prettified_bin_addr = prettify_bin_addr(bin_addr)
     print(indent(
-        '{:<18} {:<32}'.format(prettified_dec_addr, prettified_bin_addr),
+        '{:<18} {:<35}'.format(prettified_dec_addr, prettified_bin_addr),
         indent_level=indent_level))
 
 
