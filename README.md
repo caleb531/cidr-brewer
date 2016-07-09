@@ -10,10 +10,17 @@ CIDR Brewer is a command-line utility which displays information for classless
 IP addresses (such as subnet mask and network ID) so you don't need to perform
 the calculations yourself.
 
+## Installing
+
+You can install CIDR Brewer via pip (ideally globally):
+
+```
+pip install cidr-brewer
+```
+
 ## Usage
 
-To use, run `./cidrbrewer.py` from the command line with one or two IP
-addresses.
+To use, run `cidr-brewer` from the command line with one or two IP addresses.
 
 ### One IP address
 
