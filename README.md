@@ -29,7 +29,7 @@ the subnet mask, network ID, broadcast ID, and the range of valid/available IP
 addresses.
 
 ```
-$ ./cidrbrewer.py 192.168.19.100/25
+$ cidr-brewer 192.168.19.100/25
 Given IP address:
    192.168.19.100/25  11000000.10101000.00010011.01100100
 Subnet mask:
@@ -49,7 +49,7 @@ Additionally, if you supply a list of block sizes, CIDR Brewer will compute the
 same information for each sub-block.
 
 ```
-$ ./cidrbrewer.py 42.114.152.128/25 --block-sizes 16 64 16 32
+$ cidr-brewer 42.114.152.128/25 --block-sizes 16 64 16 32
 Given IP address:
    42.114.152.128/25  00101010.01110010.10011000.10000000
 Block 1:
@@ -105,7 +105,7 @@ compute the largest subnet mask needed for communication between the two
 addresses.
 
 ```
-$ ./cidrbrewer.py 172.16.11.74 172.16.11.78
+$ cidr-brewer 172.16.11.74 172.16.11.78
 Given IP addresses:
    172.16.11.74       10101100.00010000.00001011.01001010
    172.16.11.78       10101100.00010000.00001011.01001110
@@ -128,7 +128,7 @@ indicate if the IP addresses can already communicate on their respective
 subnets.
 
 ```
-$ ./cidrbrewer.py 125.47.32.170/25 125.47.32.53/25
+$ cidr-brewer 125.47.32.170/25 125.47.32.53/25
 Given IP addresses:
    125.47.32.170/25   01111101.00101111.00100000.10101010
    125.47.32.53/25    01111101.00101111.00100000.00110101
