@@ -9,5 +9,6 @@ install:
   - pip install coveralls
 script:
   - coverage run -m nose
+  - pycodestyle cidrbrewer.py
 after_success:
   - coveralls
