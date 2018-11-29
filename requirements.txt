@@ -1,13 +1,14 @@
 appdirs==1.4.3
 colorama==0.3.7
 coverage==4.0.3
-flake8==2.5.4
+flake8==3.6.0
 mando==0.3.3
-mccabe==0.4.0
+mccabe==0.6.1
 nose==1.3.7
 packaging==16.8
 pep8==1.7.0
-pyflakes==1.0.0
+pycodestyle==2.4.0
+pyflakes==2.0.0
 pypandoc==1.4
 pyparsing==2.2.0
 python-termstyle==0.1.10
