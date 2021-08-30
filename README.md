@@ -1,6 +1,6 @@
 # CIDR Brewer
 
-*Copyright 2016 Caleb Evans*  
+*Copyright 2016-2021 Caleb Evans*  
 *Released under the MIT license*
 
 [![Build Status](https://app.travis-ci.com/caleb531/cidr-brewer.svg?branch=master)](https://app.travis-ci.com/caleb531/cidr-brewer)
