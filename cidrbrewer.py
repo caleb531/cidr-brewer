@@ -4,7 +4,6 @@ import argparse
 import functools
 import math
 
-
 # The number of spaces used per indentation level when displaying output
 SPACES_PER_INDENT = 3
 
