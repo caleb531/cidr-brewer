@@ -46,19 +46,19 @@ def test_print_addr_details():
             '11000000101010000001001101100100',
             num_subnet_bits=25)
     output = out.getvalue()
-    case.assertRegexpMatches(output, r'{}\n\s+{}\s+{}'.format(
+    case.assertRegex(output, r'{}\n\s+{}\s+{}'.format(
         'Network ID:', r'192\.168\.19\.0/25',
         r'11000000\.10101000\.00010011\.00000000'),
         'Network ID not printed')
-    case.assertRegexpMatches(output, r'{}\n\s+{}\s+{}'.format(
+    case.assertRegex(output, r'{}\n\s+{}\s+{}'.format(
         'Broadcast ID:', r'192\.168\.19\.127',
         r'11000000\.10101000\.00010011\.01111111'),
         'Broadcast ID not printed')
-    case.assertRegexpMatches(output, r'{}\n\s+{}\s+{}'.format(
+    case.assertRegex(output, r'{}\n\s+{}\s+{}'.format(
         'First Available Address:', r'192\.168\.19\.1',
         r'11000000\.10101000\.00010011\.00000001'),
         'First available address not printed')
-    case.assertRegexpMatches(output, r'{}\n\s+{}\s+{}'.format(
+    case.assertRegex(output, r'{}\n\s+{}\s+{}'.format(
         'Last Available Address:', r'192\.168\.19\.126',
         r'11000000\.10101000\.00010011\.01111110'),
         'Last available address not printed')
@@ -71,12 +71,12 @@ def test_handle_two_addrs(print_addr_details):
     with contextlib.redirect_stdout(out):
         cidrbrewer.handle_two_addrs('172.16.11.74', '172.16.11.78')
     output = out.getvalue()
-    case.assertRegexpMatches(output, r'{}\n\s+{}\s+{}\n\s+{}\s+{}'.format(
+    case.assertRegex(output, r'{}\n\s+{}\s+{}\n\s+{}\s+{}'.format(
         'Given IP addresses:', r'172\.16\.11\.74',
         r'10101100\.00010000\.00001011\.01001010',
         r'172\.16\.11\.78', r'10101100\.00010000\.00001011\.01001110'),
         'Given IP addresses not printed')
-    case.assertRegexpMatches(output, r'{}\n\s+{}\n\s+{}\s+{}'.format(
+    case.assertRegex(output, r'{}\n\s+{}\n\s+{}\s+{}'.format(
         'Largest subnet mask [^:]+:', '29 bits',
         r'255\.255\.255\.248', r'11111111\.11111111\.11111111\.11111000'),
         'Largest subnet mask not printed')
@@ -91,12 +91,12 @@ def test_handle_two_addrs_slash_notation_communicate_no(print_addr_details):
     with contextlib.redirect_stdout(out):
         cidrbrewer.handle_two_addrs('125.47.32.170/25', '125.47.32.53/25')
     output = out.getvalue()
-    case.assertRegexpMatches(output, r'{}\n\s+{}\s+{}\n\s+{}\s+{}'.format(
+    case.assertRegex(output, r'{}\n\s+{}\s+{}\n\s+{}\s+{}'.format(
         'Given IP addresses:', r'125\.47\.32\.170/25',
         r'01111101\.00101111\.00100000\.10101010',
         r'125\.47\.32\.53/25', r'01111101\.00101111\.00100000\.00110101'),
         'Given IP addresses not printed')
-    case.assertRegexpMatches(output, r'{}\n\s+{}'.format(
+    case.assertRegex(output, r'{}\n\s+{}'.format(
         r'Can these IP addresses communicate\?', 'No'),
         '"Can communicate" message not printed')
     print_addr_details.assert_called_once_with(
@@ -110,12 +110,12 @@ def test_handle_two_addrs_slash_notation_communicate_yes(print_addr_details):
     with contextlib.redirect_stdout(out):
         cidrbrewer.handle_two_addrs('125.47.32.170/24', '125.47.32.53/24')
     output = out.getvalue()
-    case.assertRegexpMatches(output, r'{}\n\s+{}\s+{}\n\s+{}\s+{}'.format(
+    case.assertRegex(output, r'{}\n\s+{}\s+{}\n\s+{}\s+{}'.format(
         'Given IP addresses:', r'125\.47\.32\.170/24',
         r'01111101\.00101111\.00100000\.10101010',
         r'125\.47\.32\.53/24', r'01111101\.00101111\.00100000\.00110101'),
         'Given IP addresses not printed')
-    case.assertRegexpMatches(output, r'{}\n\s+{}'.format(
+    case.assertRegex(output, r'{}\n\s+{}'.format(
         r'Can these IP addresses communicate\?', 'Yes'),
         '"Can communicate" message not printed')
     print_addr_details.assert_called_once_with(
@@ -158,11 +158,11 @@ def test_handle_one_addr(print_addr_details):
     with contextlib.redirect_stdout(out):
         cidrbrewer.handle_one_addr('192.168.19.100/25')
     output = out.getvalue()
-    case.assertRegexpMatches(output, r'{}\n\s+{}\s+{}'.format(
+    case.assertRegex(output, r'{}\n\s+{}\s+{}'.format(
         'Given IP address:', r'192\.168\.19\.100/25',
         r'11000000\.10101000\.00010011\.01100100'),
         'Given IP address not printed')
-    case.assertRegexpMatches(output, r'{}\n\s+{}\s+{}'.format(
+    case.assertRegex(output, r'{}\n\s+{}\s+{}'.format(
         'Subnet mask:', r'255\.255\.255\.128',
         r'11111111\.11111111\.11111111\.10000000'),
         'Subnet mask not printed')
