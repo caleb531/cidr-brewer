@@ -1,0 +1,44 @@
+[project]
+name = "cidr-brewer"
+version = "1.0.0"
+description = "'A CLI utility for working with classless IP addresses"
+readme = "README.md"
+requires-python = ">=3.4"
+authors = [
+    {name = "Caleb Evans", email = "caleb@calebevans.me"}
+]
+maintainers = [
+    {name = 'Caleb Evans', email = 'caleb@calebevans.me'}
+]
+license = {file = 'LICENSE.txt'}
+keywords = ["networking", "ip", "addresses", "cidr"]
+
+[project.urls]
+homepage = "https://github.com/caleb531/cidr-brewer"
+documentation = "https://github.com/caleb531/cidr-brewer#readme"
+repository = "https://github.com/caleb531/cidr-brewer"
+changelog = "https://github.com/caleb531/cidr-brewer/releases"
+
+[project.scripts]
+cidr-brewer = "cidrbrewer:main"
+
+[build-system]
+requires = ["setuptools", "wheel"]
+
+# Configuration for coverage.py (https://pypi.python.org/pypi/coverage)
+
+[tool.coverage.run]
+# Enable branch coverage
+branch = true
+
+[tool.coverage.report]
+# Regexes for lines to exclude from consideration
+exclude_lines = [
+    "pragma: no cover",
+    # Ignore non-runnable code
+    "if __name__ == .__main__.:",
+    "pass",
+]
+
+# Only check coverage for source files
+include = ["cidrbrewer.py"]
