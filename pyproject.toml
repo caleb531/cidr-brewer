@@ -23,7 +23,7 @@ changelog = "https://github.com/caleb531/cidr-brewer/releases"
 cidr-brewer = "cidrbrewer:main"
 
 [build-system]
-requires = ["setuptools", "wheel"]
+requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
 
 [tool.flake8]
