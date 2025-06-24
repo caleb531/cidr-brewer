@@ -26,15 +26,29 @@ cidr-brewer = "cidrbrewer:main"
 requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
 
-[tool.flake8]
-# Black compatibility
-max-line-length = 88
-extend-ignore = ["E203", "W503"]
-exclude = [".git", "build", "__pycache__", "*.egg-info", ".virtualenv"]
+[dependency-groups]
+dev = [
+    "black==24.10.0",
+    "coverage==7.6.10",
+    "nose2==0.15.1",
+    "ruff>=0.12.0",
+]
 
-# Per <https://black.readthedocs.io/en/stable/guides/using_black_with_other_tools.html#profile>
-[tool.isort]
-profile = "black"
+[tool.ruff]
+include = ["**/*.py"]
+
+[tool.ruff.lint]
+select = [
+    # pycodestyle
+    "E",
+    "W",
+    # pyflakes
+    "F",
+    # isort
+    "I",
+    # perflint
+    "PERF",
+]
 
 # Configuration for coverage.py (https://pypi.python.org/pypi/coverage)
 
