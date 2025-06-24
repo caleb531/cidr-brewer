@@ -3,7 +3,7 @@ name = "cidr-brewer"
 version = "1.0.0"
 description = "'A CLI utility for working with classless IP addresses"
 readme = "README.md"
-requires-python = ">=3.4"
+requires-python = ">=3.9"
 authors = [
     {name = "Caleb Evans", email = "caleb@calebevans.me"}
 ]
