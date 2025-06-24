@@ -21,10 +21,7 @@ def add_dec_to_bin(bin_num, dec_num):
 
 # Splits a binary address into octets
 def get_addr_octets(bin_addr):
-    octets = []
-    for i in range(0, len(bin_addr), 8):
-        octets.append(bin_addr[i : i + 8])
-    return tuple(octets)
+    return tuple(bin_addr[i : i + 8] for i in range(0, len(bin_addr), 8))
 
 
 # Computes the subnet mask given the number of bits used for the subnet
