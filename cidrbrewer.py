@@ -128,7 +128,6 @@ def parse_addr_str(addr_str):
 
 # Parses command-line arguments passed to the utility
 def parse_cli_args():
-
     parser = argparse.ArgumentParser()
     parser.add_argument("addr_str_1", metavar="ip_addr")
     parser.add_argument("addr_str_2", metavar="ip_addr", nargs="?")
@@ -139,7 +138,6 @@ def parse_cli_args():
 
 # Prints details (like network ID and broadcast ID) for the given IP address
 def print_addr_details(bin_addr, num_subnet_bits, indent_level=0):
-
     print(indent("Network ID:", indent_level=indent_level))
     print_addr(
         get_network_id(bin_addr, num_subnet_bits),
@@ -179,7 +177,6 @@ def print_addr_details(bin_addr, num_subnet_bits, indent_level=0):
 def print_addrs_can_communicate(
     bin_addr_1, num_subnet_bits_1, bin_addr_2, num_subnet_bits_2
 ):
-
     if num_subnet_bits_1 is not None and num_subnet_bits_2 is not None:
         print("Can these IP addresses communicate?")
         network_id_1 = get_network_id(bin_addr_1, num_subnet_bits_1)
@@ -192,7 +189,6 @@ def print_addrs_can_communicate(
 
 # Takes the appropriate action when two IP addresses are passed to the utility
 def handle_two_addrs(addr_str_1, addr_str_2):
-
     bin_addr_1, num_subnet_bits_1 = parse_addr_str(addr_str_1)
     bin_addr_2, num_subnet_bits_2 = parse_addr_str(addr_str_2)
 
@@ -222,12 +218,10 @@ def get_block_network_id(bin_addr, num_subnet_bits, block_size):
 # Returns a list of blocks, where each block is a tuple containing its size,
 # network ID, and number of subnet bits
 def get_blocks(bin_addr, num_subnet_bits, block_sizes):
-
     prev_block_size = 0
     block_network_id = bin_addr
     blocks = []
     for block_size in reversed(sorted(block_sizes)):
-
         num_block_subnet_bits = 32 - int(math.log2(block_size))
         block_network_id = get_block_network_id(
             block_network_id, num_subnet_bits, prev_block_size
@@ -241,7 +235,6 @@ def get_blocks(bin_addr, num_subnet_bits, block_sizes):
 # Prints details for every sub-block created from an IP address and a sequence
 # of block sizes
 def print_blocks(bin_addr, num_subnet_bits, block_sizes):
-
     blocks = get_blocks(bin_addr, num_subnet_bits, block_sizes)
     for block_num, (block_size, block_network_id, num_block_subnet_bits) in enumerate(
         blocks, 1
@@ -257,7 +250,6 @@ def print_blocks(bin_addr, num_subnet_bits, block_sizes):
 
 # Takes the appropriate action when one IP address is passed to the utility
 def handle_one_addr(addr_str, block_sizes=None):
-
     bin_addr, num_subnet_bits = parse_addr_str(addr_str)
 
     print("Given IP address:")
@@ -272,7 +264,6 @@ def handle_one_addr(addr_str, block_sizes=None):
 
 
 def main():
-
     cli_args = parse_cli_args()
     if cli_args.addr_str_2:
         handle_two_addrs(cli_args.addr_str_1, cli_args.addr_str_2)

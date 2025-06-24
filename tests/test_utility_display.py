@@ -10,7 +10,6 @@ import cidrbrewer
 
 
 class TestUtilityDisplay(unittest.TestCase):
-
     def test_print_addr(self):
         """Should print IP address in decimal and binary formats."""
         out = io.StringIO()

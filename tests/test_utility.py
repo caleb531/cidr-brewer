@@ -6,7 +6,6 @@ import cidrbrewer
 
 
 class TestUtility(unittest.TestCase):
-
     def test_get_subnet_mask(self):
         """Should compute the subnet mask."""
         self.assertEqual(
