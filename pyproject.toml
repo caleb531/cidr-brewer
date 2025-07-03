@@ -20,7 +20,7 @@ repository = "https://github.com/caleb531/cidr-brewer"
 changelog = "https://github.com/caleb531/cidr-brewer/releases"
 
 [project.scripts]
-cidr-brewer = "cidrbrewer.__main__:main"
+cidr-brewer = "cidrbrewer:main"
 
 [build-system]
 requires = ["setuptools"]
@@ -66,4 +66,4 @@ exclude_lines = [
 ]
 
 # Only check coverage for source files
-include = ["cidrbrewer/*.py"]
+include = ["cidrbrewer.py"]

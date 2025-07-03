@@ -2,7 +2,7 @@
 
 import unittest
 
-import cidrbrewer.__main__ as cidrbrewer
+import cidrbrewer
 
 
 class TestUtility(unittest.TestCase):
