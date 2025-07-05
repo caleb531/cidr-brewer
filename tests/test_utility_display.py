@@ -6,7 +6,7 @@ import re
 import unittest
 from unittest.mock import call, patch
 
-import cidrbrewer
+import cidrbrewer.__main__ as main
 
 
 class TestUtilityDisplay(unittest.TestCase):
@@ -14,7 +14,7 @@ class TestUtilityDisplay(unittest.TestCase):
         """Should print IP address in decimal and binary formats."""
         out = io.StringIO()
         with contextlib.redirect_stdout(out):
-            cidrbrewer.print_addr("11001000000101110001000001011100", indent_level=2)
+            main.print_addr("11001000000101110001000001011100", indent_level=2)
         self.assertEqual(
             out.getvalue().rstrip(),
             "{}200.23.16.92{}11001000.00010111.00010000.01011100".format(
@@ -26,7 +26,7 @@ class TestUtilityDisplay(unittest.TestCase):
         """Should print IP address in decimal slash and binary formats."""
         out = io.StringIO()
         with contextlib.redirect_stdout(out):
-            cidrbrewer.print_addr(
+            main.print_addr(
                 "11001000000101110001000001011100", num_subnet_bits=26, indent_level=2
             )
         self.assertEqual(
@@ -40,7 +40,7 @@ class TestUtilityDisplay(unittest.TestCase):
         """Should print IP address details (subnet mask, network ID, etc.)"""
         out = io.StringIO()
         with contextlib.redirect_stdout(out):
-            cidrbrewer.print_addr_details(
+            main.print_addr_details(
                 "11000000101010000001001101100100", num_subnet_bits=25
             )
         output = out.getvalue()
@@ -81,12 +81,12 @@ class TestUtilityDisplay(unittest.TestCase):
             "Last available address not printed",
         )
 
-    @patch("cidrbrewer.print_addr_details")
+    @patch("cidrbrewer.__main__.print_addr_details")
     def test_handle_two_addrs(self, print_addr_details):
         """Should display information for two IP addresses."""
         out = io.StringIO()
         with contextlib.redirect_stdout(out):
-            cidrbrewer.handle_two_addrs("172.16.11.74", "172.16.11.78")
+            main.handle_two_addrs("172.16.11.74", "172.16.11.78")
         output = out.getvalue()
         self.assertRegex(
             output,
@@ -113,12 +113,12 @@ class TestUtilityDisplay(unittest.TestCase):
             "10101100000100000000101101001010", 29
         )
 
-    @patch("cidrbrewer.print_addr_details")
+    @patch("cidrbrewer.__main__.print_addr_details")
     def test_handle_two_addrs_slash_notation_communicate_no(self, print_addr_details):
         """Should print info for two IP addresses in slash notation."""
         out = io.StringIO()
         with contextlib.redirect_stdout(out):
-            cidrbrewer.handle_two_addrs("125.47.32.170/25", "125.47.32.53/25")
+            main.handle_two_addrs("125.47.32.170/25", "125.47.32.53/25")
         output = out.getvalue()
         self.assertRegex(
             output,
@@ -140,14 +140,14 @@ class TestUtilityDisplay(unittest.TestCase):
             "01111101001011110010000010101010", 24
         )
 
-    @patch("cidrbrewer.print_addr_details")
+    @patch("cidrbrewer.__main__.print_addr_details")
     def test_handle_two_addrs_slash_notation_communicate_yes(self, print_addr_details):
         """
         Should print info for two same-subnet IP addresses in slash notation.
         """
         out = io.StringIO()
         with contextlib.redirect_stdout(out):
-            cidrbrewer.handle_two_addrs("125.47.32.170/24", "125.47.32.53/24")
+            main.handle_two_addrs("125.47.32.170/24", "125.47.32.53/24")
         output = out.getvalue()
         self.assertRegex(
             output,
@@ -169,12 +169,12 @@ class TestUtilityDisplay(unittest.TestCase):
             "01111101001011110010000010101010", 24
         )
 
-    @patch("cidrbrewer.print_addr_details")
+    @patch("cidrbrewer.__main__.print_addr_details")
     def test_print_blocks(self, print_addr_details):
         """Should print details for IP address blocks."""
         out = io.StringIO()
         with contextlib.redirect_stdout(out):
-            cidrbrewer.print_blocks(
+            main.print_blocks(
                 "00101010011100101001100010000000",
                 num_subnet_bits=25,
                 block_sizes=(16, 64, 16, 32),
@@ -205,12 +205,12 @@ class TestUtilityDisplay(unittest.TestCase):
             ],
         )
 
-    @patch("cidrbrewer.print_addr_details")
+    @patch("cidrbrewer.__main__.print_addr_details")
     def test_handle_one_addr(self, print_addr_details):
         """Should display information for one IP address."""
         out = io.StringIO()
         with contextlib.redirect_stdout(out):
-            cidrbrewer.handle_one_addr("192.168.19.100/25")
+            main.handle_one_addr("192.168.19.100/25")
         output = out.getvalue()
         self.assertRegex(
             output,
@@ -234,29 +234,29 @@ class TestUtilityDisplay(unittest.TestCase):
             "11000000101010000001001101100100", 25
         )
 
-    @patch("cidrbrewer.print_blocks")
+    @patch("cidrbrewer.__main__.print_blocks")
     def test_handle_one_addr_block_sizes(self, print_blocks):
         """
         Should display information for one IP address and given block sizes.
         """
         with contextlib.redirect_stdout(None):
-            cidrbrewer.handle_one_addr("192.168.19.100/25", [16, 64, 16, 32])
+            main.handle_one_addr("192.168.19.100/25", [16, 64, 16, 32])
         print_blocks.assert_called_once_with(
             "11000000101010000001001101100100", 25, [16, 64, 16, 32]
         )
 
-    @patch("cidrbrewer.handle_one_addr")
+    @patch("cidrbrewer.__main__.handle_one_addr")
     @patch("sys.argv", [__file__, "192.168.19.100/25"])
     def test_main_one_addr(self, handle_one_addr):
         """Should handle one IP address when running main function."""
         with contextlib.redirect_stdout(None):
-            cidrbrewer.main()
+            main.main()
         handle_one_addr.assert_called_once_with("192.168.19.100/25", None)
 
-    @patch("cidrbrewer.handle_two_addrs")
+    @patch("cidrbrewer.__main__.handle_two_addrs")
     @patch("sys.argv", [__file__, "125.47.32.170/25", "125.47.32.53/25"])
     def test_main_two_addrs(self, handle_two_addrs):
         """Should handle two IP addresses when running main function."""
         with contextlib.redirect_stdout(None):
-            cidrbrewer.main()
+            main.main()
         handle_two_addrs.assert_called_once_with("125.47.32.170/25", "125.47.32.53/25")
