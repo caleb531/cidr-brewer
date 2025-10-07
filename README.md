@@ -12,10 +12,17 @@ the calculations yourself.
 
 ## Installing
 
-You can install CIDR Brewer via pip (ideally globally):
+You can install CIDR Brewer via pip, *or* using your preferred package manager
+(like uv):
 
+```sh
+# via pip
+pip3 install cidr-brewer
 ```
-pip install cidr-brewer
+
+```sh
+# via uv
+uv tool install cidr-brewer
 ```
 
 ## Usage
