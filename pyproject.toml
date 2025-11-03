@@ -61,7 +61,7 @@ select = [
 # Enable branch coverage
 branch = true
 # Only check coverage for source files
-include = ["cidrbrewer/*.py"]
+source = ["cidrbrewer"]
 
 [tool.coverage.report]
 # Regexes for lines to exclude from consideration
