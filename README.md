@@ -1,6 +1,6 @@
 # CIDR Brewer
 
-*Copyright 2016-2024 Caleb Evans*  
+*Copyright 2016-2025 Caleb Evans*  
 *Released under the MIT license*
 
 [![tests](https://github.com/caleb531/cidr-brewer/actions/workflows/tests.yml/badge.svg)](https://github.com/caleb531/cidr-brewer/actions/workflows/tests.yml)
